@@ -155,7 +155,7 @@ src/
 
 ```bash
 # Clone the repo
-git clone (https://github.com/SumitKumar621/Intractive-calender.git)
+git clone https://github.com/SumitKumar621/Intractive-calender.git
 cd Intractive-calender
 
 # Install dependencies
