@@ -155,8 +155,8 @@ src/
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/wall-calendar.git
-cd wall-calendar
+git clone (https://github.com/SumitKumar621/Intractive-calender.git)
+cd Intractive-calender
 
 # Install dependencies
 npm install
