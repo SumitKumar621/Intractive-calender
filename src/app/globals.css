@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1a73e8;
+  --color-primary-dark: #1557b0;
+  --color-primary-light: #4a9eff;
+  --color-accent: #f4a261;
+  --color-accent-dark: #e76f51;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8f9fa;
+  --color-bg: #e8ecf0;
+  --color-text: #1a1a2e;
+  --color-text-muted: #6c757d;
+  --color-border: #dee2e6;
+  --color-range-start: #1a73e8;
+  --color-range-end: #e76f51;
+  --color-range-mid: #cce0ff;
+
+  --font-display: "Outfit", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    height: 100%;
+    font-size: 16px;
+  }
+
+  body {
+    height: 100%;
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Calendar spiral binding */
+.spiral-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+}
+.spiral-ring {
+  width: 22px;
+  height: 22px;
+  border: 3px solid #8a8a9a;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #c0c0d0 0%, #808090 50%, #a0a0b0 100%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.2);
+  position: relative;
+}
+.spiral-ring::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #404050, #606080);
+  border-radius: 50%;
+}
+
+/* Calendar paper texture */
+.calendar-paper {
+  background: #fdfcfb;
+  background-image:
+    linear-gradient(rgba(240,240,245,0.4) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+/* Day cell animations */
+.day-cell {
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.day-cell:hover:not(.day-empty):not(.day-selected-start):not(.day-selected-end) {
+  transform: scale(1.15);
+}
+
+/* Range selection gradient */
+.day-range-mid {
+  background: linear-gradient(to right, rgba(26,115,232,0.12), rgba(26,115,232,0.12));
+  border-radius: 0;
+}
+.day-range-start-cap {
+  border-radius: 50% 0 0 50%;
+}
+.day-range-end-cap {
+  border-radius: 0 50% 50% 0;
+}
+
+/* Page flip animation */
+@keyframes pageFlip {
+  0% { transform: perspective(1000px) rotateX(0deg); opacity: 1; }
+  50% { transform: perspective(1000px) rotateX(-90deg); opacity: 0; }
+  51% { transform: perspective(1000px) rotateX(90deg); opacity: 0; }
+  100% { transform: perspective(1000px) rotateX(0deg); opacity: 1; }
+}
+.flip-animation {
+  animation: pageFlip 0.5s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  transform-origin: top center;
+}
+
+/* Slide animation for notes */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.note-item {
+  animation: slideIn 0.25s ease both;
+}
+
+/* Pulse animation for today indicator */
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(26,115,232,0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(26,115,232,0); }
+  100% { box-shadow: 0 0 0 0 rgba(26,115,232,0); }
+}
+.today-pulse {
+  animation: pulse-ring 2s infinite;
+}
+
+/* Scroll styles */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 99px;
+}
+
+/* Month transition */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.month-enter {
+  animation: fadeSlideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Holiday chip */
+.holiday-chip {
+  font-size: 9px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
